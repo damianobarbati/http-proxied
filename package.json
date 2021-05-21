@@ -1,6 +1,6 @@
 {
   "name": "http-proxied",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Simple, zero-dependencies and zero-configuration command-line http proxy server.",
   "author": "Damiano Barbati <damiano.barbati@gmail.com> (http://github.com/damianobarbati)",
   "repository": "https://github.com/damianobarbati/http-proxied",
