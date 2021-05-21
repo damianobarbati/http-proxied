@@ -7,15 +7,17 @@ It is meant to be run in a docker container bound to a docker network.
 
 ## Usage
 
-Start transparent proxy forwarding all requests on port. 
+Start transparent proxy forwarding all requests on <port>: 
 ```bash
 npx http-proxied [port] 
 ```
 
 ## Docker example
 
-A typical Docker scenario, is having 2 services not bound on host port but internally listening on port 80.  
-I want to reach them both from my host, how to solve?
+A typical Docker scenario is having different containers not bound on host port but:
+- you need containers to resolve/reach to each other
+- you need to resolve/reach containers from host
+- you need all of this with proper hostnames
 
 Create a test network:
 ```bash
@@ -39,10 +41,11 @@ npx http-server -p 80 .
 
 Both containers are happily running and can see themselves and each other:
 ```bash
-docker exec -ti aaa curl aaa.com
-docker exec -ti aaa curl bbb.com
-docker exec -ti bbb curl aaa.com
-docker exec -ti bbb curl bbb.com
+docker exec -ti aaa curl aaa.com # aaa resolves aaa.com
+docker exec -ti aaa curl bbb.com # aaa resolves bbb.com
+
+docker exec -ti bbb curl aaa.com # bbb resolves aaa.com
+docker exec -ti bbb curl bbb.com # bbb resolves bbb.com
 ```
 
 **Here the magic happens**
@@ -53,9 +56,12 @@ vim /etc/hosts
 127.0.0.1 localhost aaa.com bbb.com
 ```
 
-Fire the proxy, the only one listening on port 80 on host:
+Fire the proxy on port 80:
 ```bash
-docker run --name http-proxied --rm -ti --network=test -p 80:80 node:14-alpine npx http-proxied 80 
+docker run --name proxy --rm -ti --network=test -p 80:80 node:14-alpine npx http-proxied 80 
 ```
 
-⚠️ Remember: the proxied hostname must not resolve to same IP http-proxied is running or you will cause and endless loop where proxy call itself! ⚠️ 
+⚠️
+Remember:
+- the proxy must be attached on the network of containers with `--network=test` 
+- the proxied request hostname must not resolve to same IP `http-proxied` is running on, or you will cause and endless loop! ⚠️ 
