@@ -7,6 +7,7 @@
   "license": "MIT",
   "type": "module",
   "main": "index.js",
+  "keywords": ["docker", "proxy", "http-proxy", "cli", "command"],
   "bin": {
     "http-proxied": "./index.js"
   },
