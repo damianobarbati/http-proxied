@@ -9,7 +9,7 @@ It is meant to be run in a docker container bound to a docker network.
 
 Start transparent proxy forwarding all requests on <port>: 
 ```bash
-npx http-proxied [port] 
+npx http-proxied [port] [source:destination] [source:destination] ...
 ```
 
 ## Docker example

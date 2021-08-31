@@ -1,6 +1,5 @@
-FROM alpine:3.13
-RUN apk add nodejs npm
-COPY . /opt
+FROM alpine:3.14
+COPY ./ /opt
 WORKDIR /opt
-RUN NODE_ENV=production npm install
-CMD node index.js
+RUN apk add nodejs
+ENTRYPOINT ["node", "src/index.js"]
