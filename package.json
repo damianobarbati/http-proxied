@@ -1,13 +1,19 @@
 {
   "name": "http-proxied",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Simple, zero-dependencies and zero-configuration command-line http proxy server.",
   "author": "Damiano Barbati <damiano.barbati@gmail.com> (http://github.com/damianobarbati)",
   "repository": "https://github.com/damianobarbati/http-proxied",
   "license": "MIT",
   "type": "module",
   "main": "index.js",
-  "keywords": ["docker", "proxy", "http-proxy", "cli", "command"],
+  "keywords": [
+    "docker",
+    "proxy",
+    "http-proxy",
+    "cli",
+    "command"
+  ],
   "bin": {
     "http-proxied": "./src/index.js"
   },
