@@ -16,22 +16,25 @@ const onRequest = (request, response) => {
   const source = request.headers.host;
   const destination = source2destination[source] || source;
 
-  console.log(`${new Date().toISOString()} ${request.method} ${request.headers.host}${request.url} => ${destination}${request.url}`);
+  console.log(`[${new Date().toISOString()}] ${request.method} ${request.headers.host}${request.url} => ${destination}${request.url}`);
+
+  const proxiedHeaders = { ...request.headers };
+  delete proxiedHeaders['host'];
 
   const options = {
     hostname: destination,
-    protocol: request.protocol,
+    port: 443,
     path: request.url,
     method: request.method,
-    headers: request.headers,
+    headers: proxiedHeaders,
   };
 
   const proxy = http.request(options, (proxied_response) => {
     response.writeHead(proxied_response.statusCode, proxied_response.headers);
-    proxied_response.pipe(response, { end: true });
+    proxied_response.pipe(response);
   });
 
-  request.pipe(proxy, { end: true });
+  request.pipe(proxy);
 };
 
 http.createServer(onRequest).listen(port, () => console.log(`Proxy listening on port ${port}`));
