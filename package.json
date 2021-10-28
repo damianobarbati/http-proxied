@@ -21,6 +21,7 @@
     "eslint": "eslint --fix --ignore-path .gitignore"
   },
   "devDependencies": {
-    "eslint-config-translated": "^1.0.16"
+    "eslint-config-translated": "^1.0.23",
+    "nodemon": "^2.0.14"
   }
 }

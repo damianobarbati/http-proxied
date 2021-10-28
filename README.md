@@ -12,6 +12,18 @@ Start transparent proxy forwarding all requests on <port>:
 npx http-proxied [port] [source:destination] [source:destination] ...
 ```
 
+## Development
+
+```sh
+docker network create overlay
+docker run --name proxy --rm -ti --network=overlay -p 80:80 -v $(pwd):/opt -w=/opt node:14-alpine node src/index.js
+docker run --name aaa --rm -ti --network=overlay --network-alias=aaa hashicorp/http-echo -listen=:80 -text="I'm AAA"
+docker run --name bbbb --rm -ti --network=overlay --network-alias=bbb hashicorp/http-echo -listen=:80 -text="I'm BBB"
+
+curl -H 'Host: aaa' localhost
+curl -H 'Host: bbb' localhost
+```
+
 ## Docker example
 
 A typical Docker scenario is having different containers not bound on host port but:
